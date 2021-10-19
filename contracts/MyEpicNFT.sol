@@ -128,6 +128,7 @@ contract MyEpicNFT is ERC721URIStorage {
     string[] houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"];
 
     event NewEpicNFTMinted(address sender, uint256 tokenId);
+    event CurrentTokenId(uint256 tokenId);
 
     // We need to pass the name of our NFTs token and it's symbol.
     constructor() ERC721("WizardNFT", "WIZARD") {
@@ -265,6 +266,10 @@ contract MyEpicNFT is ERC721URIStorage {
             );
     }
 
+    function getMintCount() public view returns (uint256) {
+        return _tokenIds.current();
+    }
+
     // A function our user will hit to get their NFT.
     function makeAnEpicNFT() public {
         string memory name = generateRandomWizard();
@@ -313,5 +318,6 @@ contract MyEpicNFT is ERC721URIStorage {
         _tokenIds.increment();
 
         emit NewEpicNFTMinted(msg.sender, newItemId);
+        emit CurrentTokenId(_tokenIds.current());
     }
 }
